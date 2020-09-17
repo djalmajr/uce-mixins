@@ -12,14 +12,14 @@ define("my-loader", mixin(events, {
   props: {
     loading: false,
   },
-  handleClick() {
+  handleEvent() {
     this.emit("catch", "You caught me!");
   },
   render() {
     const { loading } = this;
 
     this.html`
-      <p onclick=${this.handleClick}>
+      <p onclick=${this}>
         <span>${loading ? "Decreasing..." : ""}</span>
       </p>
     `;

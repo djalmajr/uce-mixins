@@ -1,26 +1,40 @@
+function addOrRemoveEvt(type) {
+  if (typeof this.events === "object") {
+    if (Array.isArray(this.events)) {
+      this.events.forEach((name) => {
+        this[type + "EventListener"](name, this.handleEvent);
+      });
+    } else {
+      Object.keys(this.events).forEach((name) => {
+        this[type + "EventListener"](name, this[this.events[name]]);
+      });
+    }
+  }
+}
+
 export const events = {
   init() {
-    if (typeof this.events === "object") {
-      if (Array.isArray(this.events)) {
-        this.events.forEach(name => {
-          this.addEventListener(name, this.handleEvent);
-        });
-      } else {
-        Object.keys(this.events).forEach(name => {
-          this[this.events[name]] = this[this.events[name]].bind(this);
-          this.addEventListener(name, this[this.events[name]]);
-        });
-      }
+    const ignore = [
+      "init",
+      "connected",
+      "disconnected",
+      "attributeChanged",
+      "render",
+    ];
+
+    const props = Object.keys(Object.getPrototypeOf(this))
+      .filter((prop) => typeof this[prop] === "function")
+      .filter((prop) => !ignore.includes(prop));
+
+    for (const prop of props) {
+      this[prop] = this[prop].bind(this);
     }
 
+    addOrRemoveEvt.call(this, "add");
     this.render();
   },
   disconnected() {
-    if (this.events) {
-      Object.keys(this.events).forEach(name => {
-        this.removeEventListener(name, this[this.events[name]]);
-      });
-    }
+    addOrRemoveEvt.call(this, "remove");
   },
   emit(name, data) {
     this.dispatchEvent(
