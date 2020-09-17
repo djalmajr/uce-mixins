@@ -6,7 +6,7 @@ Provides an events and state mixins to enhance [uce](https://github.com/WebRefle
 
 ```js
 import { css, define } from "https://unpkg.com/uce?module";
-import mixin, { events, state } from "https://unpkg.com/uce-mixins?module";
+import { events, mixin, state } from "https://unpkg.com/uce-mixins?module";
 
 define("my-loader", mixin(events, {
   props: {
