@@ -1,2 +1,27 @@
-var e,t=(e=require("assign-properties"))&&"object"==typeof e&&"default"in e?e.default:e,n={init:function(){var e=this;"object"==typeof this.events&&(Array.isArray(this.events)?this.events.forEach(function(t){e.addEventListener(t,e.handleEvent)}):Object.keys(this.events).forEach(function(t){e[e.events[t]]=e[e.events[t]].bind(e),e.addEventListener(t,e[e.events[t]])})),this.render()},disconnected:function(){var e=this;this.events&&Object.keys(this.events).forEach(function(t){e.removeEventListener(t,e[e.events[t]])})},emit:function(e,t){this.dispatchEvent(new CustomEvent(e,{bubbles:!0,composed:!0,detail:t}))}},r={setState:function(e,t){try{var n=this;if(!["function","object"].includes(typeof e)||Array.isArray(e))throw new Error("Invalid data type!");return n.state="function"==typeof e?e(n.state):Object.assign(n.state,e),Promise.resolve(new Promise(setTimeout)).then(function(){n.render(),t&&t(n.state)})}catch(e){return Promise.reject(e)}}},i=function(e){return function(t){return t[e]}},s=["bound","observedAttributes"],o=["init","connected","disconnected","attributeChanged"];exports.default=function(){for(var e,n=[].slice.call(arguments),r=n.filter(i("props")).reduce(function(e,n){return t(e,n.props)},{}),c={props:r},a=function(e,t){c[t]=function(){for(var e,r=n.filter(i(t)).map(i(t)),s=0;e=r[s];s++)e.apply(this,[].slice.call(arguments))}},u=0;e=o[u];u++)a(u,e);for(var f,v=function(e,t){c[e]=new Set(n.reduce(function(t,n){return t.concat(n[e]||[])},[]))},d=0;f=s[d];d++)v(f);return t.apply(void 0,[{}].concat(n,[c]))},exports.events=n,exports.state=r;
-//# sourceMappingURL=index.js.map
+import $ from "assign-properties";
+
+export * from './events';
+export * from './state';
+
+const by = (prop) => (obj) => obj[prop];
+const arr = ["bound", "observedAttributes"];
+const fns = ["init", "connected", "disconnected", "attributeChanged"];
+
+export default function (...mixins) {
+  const props = mixins.filter(by("props")).reduce((r, m) => $(r, m.props), {});
+  const merged = { props };
+
+  for (let i = 0, fn; (fn = fns[i]); i++) {
+    merged[fn] = function (...args) {
+      const cbs = mixins.filter(by(fn)).map(by(fn));
+      for (let j = 0, cb; (cb = cbs[j]); j++) cb.apply(this, args);
+    };
+  }
+
+  for (let i = 0, key; (key = arr[i]); i++) {
+    merged[key] = new Set(mixins.reduce((p, c) => p.concat(c[key] || []), []));
+  }
+
+  return $({}, ...mixins, merged);
+}
+

@@ -1,4 +1,4 @@
-export default {
+export const state = {
   async setState(data, callback) {
     const validTypes = ["function", "object"];
 

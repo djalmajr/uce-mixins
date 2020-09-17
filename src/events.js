@@ -1,4 +1,4 @@
-export default {
+export const events = {
   init() {
     if (typeof this.events === "object") {
       if (Array.isArray(this.events)) {
