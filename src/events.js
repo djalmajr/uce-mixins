@@ -1,4 +1,6 @@
-function addOrRemoveEvt(type) {
+import { fns } from './helpers';
+
+function addOrRemEvt(type) {
   if (typeof this.events === "object") {
     if (Array.isArray(this.events)) {
       this.events.forEach((name) => {
@@ -14,27 +16,19 @@ function addOrRemoveEvt(type) {
 
 export const events = {
   init() {
-    const ignore = [
-      "init",
-      "connected",
-      "disconnected",
-      "attributeChanged",
-      "render",
-    ];
-
     const props = Object.keys(Object.getPrototypeOf(this))
       .filter((prop) => typeof this[prop] === "function")
-      .filter((prop) => !ignore.includes(prop));
+      .filter((prop) => !fns.includes(prop));
 
     for (const prop of props) {
       this[prop] = this[prop].bind(this);
     }
 
-    addOrRemoveEvt.call(this, "add");
+    addOrRemEvt.call(this, "add");
     this.render();
   },
   disconnected() {
-    addOrRemoveEvt.call(this, "remove");
+    addOrRemEvt.call(this, "remove");
   },
   emit(name, data) {
     this.dispatchEvent(

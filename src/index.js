@@ -1,13 +1,9 @@
 import $ from "assign-properties";
-
+import { arr, by, fns } from './helpers';
 export * from './events';
 export * from './state';
 
-const by = (prop) => (obj) => obj[prop];
-const arr = ["bound", "observedAttributes"];
-const fns = ["init", "connected", "disconnected", "attributeChanged"];
-
-export default function (...mixins) {
+export function mixin(...mixins) {
   const props = mixins.filter(by("props")).reduce((r, m) => $(r, m.props), {});
   const merged = { props };
 
