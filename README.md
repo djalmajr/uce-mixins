@@ -62,7 +62,20 @@ define("my-counter", mixin(events, state, {
     count: 0,
     loading: false,
   },
-  // If events is an array, the bound method is handleEvent.
+  /** 
+   * If events is an array, the bound method is handleEvent.
+   * 
+   * Ex.: 
+   * 
+   * define("my-counter", mixin(events, state, {{
+   *   ...
+   *   events: ["click button:nth-child(1)"],
+   *   handleEvent() {
+   *     this.setState((s) => ({ count: s.count - 1 }));
+   *   },
+   *   ...
+   * });
+   */
   events: {
     "click button:nth-child(1)": "dec",
     "click button:nth-child(3)": "inc",
