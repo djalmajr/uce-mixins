@@ -90,7 +90,7 @@ define("my-counter", mixin(events, state, {
      */
     "catch": "handleCatch",
   },
-  // Could be `onCatch` too (auto-attach handler).
+  // Could be `onCatch` too (uce auto-attach handler).
   handleCatch(evt) {
     alert(evt.detail);
   },
