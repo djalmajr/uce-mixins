@@ -13,7 +13,7 @@ function addOrRemEvt(option) {
       const [type, ...q] = name.split(" ");
       const query = q.join(" ").trim();
       const el = query ? this.querySelector(query) : this;
-      const handler = isArr ? this.handleEvent : this[evts[type]];
+      const handler = isArr ? this.handleEvent : this[evts[name]];
       el && el[`${option}EventListener`](type, handler);
     });
   }
