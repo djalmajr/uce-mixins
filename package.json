@@ -1,17 +1,27 @@
 {
   "name": "uce-mixins",
   "version": "0.4.2",
-  "description": "A set of utilities mixins for uce",
-  "keywords": [],
+  "description": "A set of utilities for uce",
+  "author": "Djalma Jr. <djalmajr@gmail.com>",
   "license": "MIT",
+  "keywords": [
+    "uce",
+    "custom-elements",
+    "web-components"
+  ],
+  "bugs": {
+    "url": "https://github.com/djalmajr/uce-mixins/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:djalmajr/uce-mixins.git"
+  },
   "source": "src/index.js",
   "main": "dist/index.js",
   "umd:main": "dist/index.umd.js",
   "module": "dist/index.m.js",
   "esmodule": "dist/index.modern.js",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "scripts": {
     "build": "microbundle",
     "version": "npm run build",
