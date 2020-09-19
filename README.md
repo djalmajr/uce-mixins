@@ -20,7 +20,7 @@ define("my-loader", mixin(events, {
 
     this.html`
       <p onclick=${this}>
-        <span>${loading ? "Decreasing..." : ""}</span>
+        ${loading ? "Decreasing..." : ""}
       </p>
     `;
   },
@@ -69,10 +69,10 @@ define("my-counter", mixin(events, state, {
     /**
      * If query is not defined, event listeners
      * will be added to this custom element.
-     * 
+     *
      * PS: this is not necessary as you can use the
-     * auto-attach feature from uce... But, if you 
-     * would like to use another method name, this 
+     * auto-attach feature from uce... But, if you
+     * would like to use another method name, this
      * can become handy.
      */
     "catch": "handleCatch",
