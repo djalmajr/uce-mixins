@@ -77,8 +77,17 @@ define("my-counter", mixin(events, state, {
    * });
    */
   events: {
+    /**
+     * The syntax is the same as Backbone View Events
+     * (https://backbonejs.org/#View-events).
+     */
     "click button:nth-child(1)": "dec",
-    "click button:nth-child(3)": "inc",
+    /**
+     * A anonymous function can be passed instead the name of method.
+     */
+    "click button:nth-child(3)": function () {
+      this.setState((s) => ({ count: s.count + 1 }));
+    },
     /**
      * If query is not defined, event listeners
      * will be added to this custom element.
@@ -108,9 +117,6 @@ define("my-counter", mixin(events, state, {
         resolve();
       }, 1000);
     });
-  },
-  inc() {
-    this.setState((s) => ({ count: s.count + 1 }));
   },
   render() {
     const { count, loading } = this.state;

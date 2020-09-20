@@ -1,19 +1,17 @@
+import bound from "bound-once";
 import { fns } from "./helpers";
-
-const { keys } = Object;
-const { isArray } = Array;
 
 function addOrRemEvt(option) {
   const evts = this.events;
 
   if (typeof evts === "object") {
-    const isArr = isArray(evts);
+    const isArr = Array.isArray(evts);
 
-    (isArr ? evts : keys(evts)).forEach((name) => {
+    (isArr ? evts : Object.keys(evts)).forEach((name) => {
       const [type, ...q] = name.split(" ");
       const query = q.join(" ").trim();
       const el = query ? this.querySelector(query) : this;
-      const handler = isArr ? this.handleEvent : this[evts[name]];
+      const handler = isArr ? this.handleEvent : bound(this, evts[name]);
       el && el[`${option}EventListener`](type, handler);
     });
   }
