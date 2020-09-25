@@ -1,39 +1,32 @@
+import bound from "bound-once";
+
+const evtName = "state:changed";
+
+function addOrRemEvt(type) {
+  if (!this.onStateChanged) return;
+  const opts = this.onStateOptions;
+  const handler = bound(this, "onStateChanged");
+  this[`${type}EventListener`](evtName, handler, opts);
+}
+
 export default {
-  // init() {
-  //   const accessor = (update, props, key, value) => {
-  //     props[key] = {
-  //       get: () => value,
-  //       set: (v) => v !== value && ((value = v), update()),
-  //     };
-  //   };
-
-  //   const reactive = (update, defaults = {}) => {
-  //     const props = {};
-  //     const keys = Object.keys(defaults);
-
-  //     for (let i = 0, key; (key = keys[i]); i++) {
-  //       accessor(update, props, key, defaults[key]);
-  //     }
-
-  //     return Object.defineProperties({}, props);
-  //   };
-
-  //   this.state = reactive(this.render, this.state);
-  //   this.render();
-  // },
+  connected() {
+    addOrRemEvt.call(this, "add");
+  },
+  disconnected() {
+    addOrRemEvt.call(this, "remove");
+  },
   setState(data, callback) {
+    const isFn = typeof data === "function";
     const validTypes = ["function", "object"];
 
     if (!validTypes.includes(typeof data) || Array.isArray(data)) {
       throw new Error("Invalid data type!");
     }
 
-    this.state =
-      typeof data === "function"
-        ? data(this.state)
-        : Object.assign(this.state, data);
-
+    this.state = Object.assign(this.state, isFn ? data(this.state) : data);
     this.render();
+    this.dispatchEvent(new Event(evtName));
     callback && callback(this.state);
   },
 };

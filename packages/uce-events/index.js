@@ -2,18 +2,18 @@ import bound from "bound-once";
 
 const fns = ["init", "connected", "disconnected", "attributeChanged"];
 
-function addOrRemEvt(option) {
+function addOrRemEvt(type) {
   const evts = this.events;
 
   if (typeof evts === "object") {
     const isArr = Array.isArray(evts);
 
-    (isArr ? evts : Object.keys(evts)).forEach((name) => {
-      const [type, ...q] = name.split(" ");
-      const query = q.join(" ").trim();
+    (isArr ? evts : Object.keys(evts)).forEach((evt) => {
+      const [name, ...rest] = evt.split(" ");
+      const query = rest.join(" ").trim();
       const el = query ? this.querySelector(query) : this;
-      const handler = isArr ? this.handleEvent : bound(this, evts[name]);
-      el && el[`${option}EventListener`](type, handler);
+      const fn = isArr ? this.handleEvent : bound(this, evts[evt]);
+      el && fn && el[`${type}EventListener`](name.trim(), fn);
     });
   }
 }
@@ -36,12 +36,12 @@ export default {
   disconnected() {
     addOrRemEvt.call(this, "remove");
   },
-  emit(name, data) {
+  emit(name, detail) {
     this.dispatchEvent(
       new CustomEvent(name, {
+        detail,
         bubbles: true,
         composed: true,
-        detail: data,
       })
     );
   },
