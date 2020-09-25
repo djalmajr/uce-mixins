@@ -6,9 +6,11 @@ Provides an events and state mixins to enhance [uce](https://github.com/WebRefle
 
 ```js
 import { css, define } from "https://unpkg.com/uce?module";
-import { events, mixin, state } from "https://unpkg.com/uce-mixins?module";
+import compose from "https://unpkg.com/uce-compose?module";
+import events from "https://unpkg.com/uce-events?module";
+import state from "https://unpkg.com/uce-state?module";
 
-define("my-loader", mixin(events, {
+define("my-loader", compose(events, {
   props: {
     loading: false,
   },
@@ -38,7 +40,7 @@ define("my-loader", mixin(events, {
  *
  * Works similarly React's state/setState.
  */
-define("my-counter", mixin(events, state, {
+define("my-counter", compose(events, state, {
   style(el) {
     return css`
       ${el} span {
@@ -102,6 +104,10 @@ define("my-counter", mixin(events, state, {
   // Could be `onCatch` too (uce auto-attach handler).
   handleCatch(evt) {
     alert(evt.detail);
+  },
+  // Called whenever state change.
+  onStateChanged(evt) {
+    console.log(evt);
   },
   async dec() {
     if (this.state.loading) return;
