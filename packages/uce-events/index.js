@@ -1,5 +1,6 @@
 import bound from "bound-once";
-import { fns } from "./helpers";
+
+const fns = ["init", "connected", "disconnected", "attributeChanged"];
 
 function addOrRemEvt(option) {
   const evts = this.events;
@@ -17,7 +18,7 @@ function addOrRemEvt(option) {
   }
 }
 
-export const events = {
+export default {
   init() {
     const props = Object.keys(Object.getPrototypeOf(this))
       .filter((prop) => typeof this[prop] === "function")

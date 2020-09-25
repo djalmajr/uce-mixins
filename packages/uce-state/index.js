@@ -1,4 +1,4 @@
-export const state = {
+export default {
   // init() {
   //   const accessor = (update, props, key, value) => {
   //     props[key] = {

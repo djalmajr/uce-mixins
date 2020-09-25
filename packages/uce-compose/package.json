@@ -1,0 +1,28 @@
+{
+  "name": "uce-compose",
+  "version": "0.0.1",
+  "description": "Compose mixins with uce definition",
+  "author": "Djalma Jr. <djalmajr@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "uce",
+    "uce-compose"
+  ],
+  "bugs": {
+    "url": "https://github.com/djalmajr/uce-mixins/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:djalmajr/uce-mixins.git"
+  },
+  "source": "index.js",
+  "main": "dist/index.js",
+  "umd:main": "dist/index.umd.js",
+  "module": "dist/index.m.js",
+  "esmodule": "dist/index.modern.js",
+  "files": ["dist"],
+  "scripts": {
+    "build": "microbundle",
+    "prepublish": "npm run build"
+  }
+}
