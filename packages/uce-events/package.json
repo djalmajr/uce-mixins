@@ -1,6 +1,6 @@
 {
   "name": "uce-events",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Events mixin for uce",
   "author": "Djalma Jr. <djalmajr@gmail.com>",
   "license": "MIT",
@@ -20,7 +20,9 @@
   "umd:main": "dist/index.umd.js",
   "module": "dist/index.m.js",
   "esmodule": "dist/index.modern.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "microbundle",
     "prepublish": "npm run build"
